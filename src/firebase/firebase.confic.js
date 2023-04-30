@@ -4,13 +4,14 @@ import { initializeApp } from "firebase/app";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+console.log('environment variable', import.meta.env.VITE_PASS);
 const firebaseConfig = {
-  apiKey: "AIzaSyDvduW2OUucjDmD_885cL3gk3Lxzxu1d7A",
-  authDomain: "dagon-news-eda0e.firebaseapp.com",
-  projectId: "dagon-news-eda0e",
-  storageBucket: "dagon-news-eda0e.appspot.com",
-  messagingSenderId: "723466687994",
-  appId: "1:723466687994:web:c137340b335a2812244043"
+  apiKey:import.meta.env.VITE_APIKEY, 
+  authDomain:import.meta.env.VITE_AUTHDOMAIN, 
+  projectId:import.meta.env.VITE_PROJECTID, 
+  storageBucket:import.meta.env.VITE_STORAGEBUCKET, 
+  messagingSenderId:import.meta.env.VITE_MESSAGINGSENDERID, 
+  appId:import.meta.env.VITE_APPID, 
 };
 
 // Initialize Firebase

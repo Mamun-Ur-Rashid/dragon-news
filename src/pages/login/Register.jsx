@@ -1,19 +1,45 @@
-import React from 'react';
+import React,{useContext, useState} from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../Provider/AuthProvider';
 
 const Register = () => {
+    const {createUser} = useContext(AuthContext);
+    const [accepted, setAccepted] = useState(false)
+
+    const handleRegister = (event) => {
+        event.preventDefault();
+        const form = event.target;
+        const name = form.name.value;
+        const photo = form.photo.value;
+        const email = form.email.value;
+        const password = form.password.value;
+
+        console.log(name, email, password);
+        createUser(email, password)
+        .then(result => {
+            const createdUser = result.user;
+            console.log(createdUser);
+        })
+        .catch(error =>{
+            console.log(error.message)
+        })
+
+    }
+    const handleAccepted = (event) => {
+        setAccepted(event.target.checked);
+    } 
     return (
         <Container className='w-25 mx-auto'>
             <h4>Please Register!</h4>
-            <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form onSubmit={handleRegister}>
+                <Form.Group className="mb-3" controlId="name">
                     <Form.Label>Name</Form.Label>
                     <Form.Control type="text" name='name' placeholder="Enter Your Name:" required />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Group className="mb-3" controlId="photo">
                     <Form.Label>Photo URL</Form.Label>
-                    <Form.Control type="text" name='photo' placeholder="Your Photo url" required />
+                    <Form.Control type="text" name='photo' placeholder="Your Photo url" />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
@@ -24,10 +50,11 @@ const Register = () => {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" name='password' placeholder="Password" required />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" name='accept' label="Accept Terms and Conditions" />
+                <Form.Group className="mb-3" controlId="formBasicCheckbox" onClick={handleAccepted}>
+                    <Form.Check type="checkbox" name='accept' 
+                    label={<>Accept <Link to='/turms'>Terms and conditions</Link></>} />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button variant="primary" disabled={!accepted} type="submit">
                     Register
                 </Button>
                 <br />
