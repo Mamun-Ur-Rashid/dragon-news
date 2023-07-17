@@ -1,17 +1,19 @@
 import React, { useContext } from 'react';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { FaUserCircle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom'; 
+
 import { AuthContext } from '../../Provider/AuthProvider';
 
 const NavigationBar = () => {
     const { user, logOut } = useContext(AuthContext);
 
-    const handleLogOut= () =>{
+    const handleLogOut = () => {
         logOut()
-        .then()
-        .catch(error => console.log(error));
-    }
+            .then()
+            .catch(error => console.log(error));
+    };
+
     return (
         <div className='mt-5'>
             <Container>
@@ -20,14 +22,14 @@ const NavigationBar = () => {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="mx-auto">
-                            <Link className='text-decoration-none' to={'/category/0'}>Home</Link>
-                            <Nav.Link href="#pricing">About</Nav.Link>
-                            <Nav.Link href="#pricing">Career</Nav.Link>
+                            <NavLink exact to={'/category/0'} className='nav-link text-decoration-none' activeClassName='active'>Home</NavLink>
+                             
+                            <NavLink to="/about" className='nav-link text-decoration-none' activeClassName='active'>About</NavLink>
+                            <NavLink to="/career" className='nav-link text-decoration-none' activeClassName='active'>Career</NavLink>
                         </Nav>
                         <Nav>
                             {user &&
-                                <FaUserCircle style={{ fontSize: '2rem' }}>
-                                </FaUserCircle>
+                                <FaUserCircle style={{ fontSize: '2rem' }} />
                             }
 
                             {

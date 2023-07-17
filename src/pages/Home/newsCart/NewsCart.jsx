@@ -1,12 +1,16 @@
 import moment from 'moment';
 import React from 'react';
 import { Card, Image } from 'react-bootstrap';
-import { FaEye, FaRegBookmark, FaRegStar, FaShareAlt, FaStar, } from 'react-icons/fa';
-import Rating from 'react-rating';
+import { FaEye, FaRegBookmark, FaShareAlt,  } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import '@smastrom/react-rating/style.css'
+import { Rating } from '@smastrom/react-rating';
+import useTitle from '../../../hook/useTitle';
+
 
 const NewsCart = ({ news }) => {
     const { _id, title, details, image_url, author, total_view, rating } = news;
+    useTitle('News Details')
     return (
         <Card className="mb-4">
             <Card.Header className='d-flex align-items-center'>
@@ -30,13 +34,11 @@ const NewsCart = ({ news }) => {
                 </Card.Text>
             </Card.Body>
             <Card.Footer className="text-muted d-flex">
-                <div className='flex-grow-1'>
+                <div className='flex-grow-1 d-flex align-items-center gap-4'>
                     <Rating
-                        placeholderRating={rating.number}
-                        readonly
-                        emptySymbol={<FaRegStar></FaRegStar>}
-                        placeholderSymbol={<FaStar className='text-warning'></FaStar>}
-                        fullSymbol={<FaStar></FaStar>}
+                        style={{ maxWidth: 150 }}
+                        value={rating.number}
+                        readOnly
                     />
                     <small> {rating.number}</small>
                 </div>

@@ -1,15 +1,40 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import { ListGroup } from 'react-bootstrap';
 import { FaFacebookF, FaGithub, FaGoogle, FaInstagramSquare, FaTwitter } from 'react-icons/fa';
 import QZone from './QZone';
 import bg from '../assets/bg.png'
+import { AuthContext } from '../Provider/AuthProvider';
 
 const RightNavbar = () => {
+    const {signInWithGoogle, signInWithGithub} = useContext(AuthContext);
+
+    const handleSignInGoogle = () =>{
+        signInWithGoogle()
+        .then(result =>{
+            const googleUser = result.user;
+            console.log(googleUser);
+        })
+        .catch(error =>{
+            console.log(error);
+        })
+    }
+
+    const handleSignInGithub = () => {
+        signInWithGithub()
+        .then(result => {
+            const singInUser = result.user;
+            console.log(singInUser);
+        })
+        .catch(error => {
+            console.log(error.message);
+        })
+    }
+
     return (
         <div className='mt-5'>
             <h4>Login With</h4>
-            <button type="button" className="btn btn-outline-primary mt-2 mb-1"> <FaGoogle /> Login with Google</button>
-            <button type="button" className="btn btn-outline-secondary"><FaGithub /> Login with Github</button>
+            <button onClick={handleSignInGoogle} type="button" className="btn btn-outline-primary mt-2 mb-1"> <FaGoogle /> Login with Google</button>
+            <button onClick={handleSignInGithub} type="button" className="btn btn-outline-secondary"><FaGithub /> Login with Github</button>
             <div className='mt-4 mb-3'>
                 <h4>Find Us On</h4>
                 <ListGroup>

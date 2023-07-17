@@ -1,21 +1,27 @@
-import React,{useContext} from 'react';
+import React,{useContext, useState} from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Provider/AuthProvider';
+import useTitle from '../../hook/useTitle';
 
 const Login = () => {
-    const {signInUser} = useContext(AuthContext);
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+    const {signInUser, emailVerification} = useContext(AuthContext);
+    useTitle('Login')
     const navigate = useNavigate();
     const location = useLocation();
     console.log("login page location", location)
     const from = location.state?.from?.pathname || '/category/0';
-
+    
     const handleLogin = (event) => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
         console.log(email, password);
+        setError("");
+        setSuccess("");
        
 
         signInUser(email, password)
@@ -24,11 +30,13 @@ const Login = () => {
             console.log(signInedUser);
             form.reset();
             navigate(from, {replace: true});
+            setSuccess("LogIn successfully!!")
         })
         .catch(error =>{
-            console.log(error.message);
+            setError(error.message);
         })
     }
+    
     return (
         <Container className='w-25 mx-auto'>
             <h4>Login Please!</h4>
@@ -45,15 +53,16 @@ const Login = () => {
                 <Button variant="primary" type="submit">
                     Login
                 </Button>
+                <p><small>Forget a password? Please <button className='btn btn-link'>Reset Password</button></small></p>
                 <br />
                 <Form.Text className="text-success">
                     Don't have an account?  <Link to='/register'>Register</Link>   
                 </Form.Text>
                 <Form.Text className="text-success">
-                
+                {success}
                 </Form.Text>
                 <Form.Text className="text-danger">
-                
+                {error}
                 </Form.Text>
             </Form>
         </Container>
